@@ -1,6 +1,9 @@
 package pool
 
-import "net"
+import (
+	"fmt"
+	"net"
+)
 
 type ClientPool struct {
 	Conn   net.Conn
@@ -20,6 +23,7 @@ func AddClient(conn net.Conn) {
 		Conn:   conn,
 		ConnID: "dsjlksdhds",
 	}
+	fmt.Println("new client added to client pool")
 }
 
 func DisconnectClient(conn net.Conn) {
@@ -32,4 +36,8 @@ func GetClients() NetPool {
 
 func IsPoolMaxed() bool {
 	return len(clients) == MAX_CONN
+}
+
+func GetConnectedClients() int {
+	return len(clients)
 }

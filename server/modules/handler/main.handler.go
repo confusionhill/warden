@@ -4,43 +4,44 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	"server/pool"
+	"server/modules/handler/broadcaster"
+	"server/network/pool"
 	"sync"
 )
 
-func MainConnHandler(conn net.Conn, mutex *sync.Mutex) {
+type Handlers struct {
+	conn   net.Conn
+	mutex  *sync.Mutex
+	reader *bufio.Reader
+}
+
+func New(conn net.Conn, mutex *sync.Mutex) Handlers {
+	return Handlers{
+		conn:   conn,
+		mutex:  mutex,
+		reader: bufio.NewReader(conn),
+	}
+}
+
+func (h *Handlers) MainConnHandler() {
 	defer func() {
-		conn.Close()
+		h.conn.Close()
 		fmt.Println("conn closed")
 	}()
+	h.mutex.Lock()
+	pool.AddClient(h.conn)
+	h.mutex.Unlock()
 
-	mutex.Lock()
-	pool.AddClient(conn)
-	mutex.Unlock()
-	fmt.Println("new client added to client pool")
-	reader := bufio.NewReader(conn)
 	for {
-		message, err := reader.ReadString('\n')
+		message, err := h.reader.ReadString('\n')
 		if err != nil {
 			fmt.Println("Error reading message:", err.Error())
 			break
 		}
-		broadcastMessage(conn, message)
+		broadcaster.BroadcastMessage(h.conn, h.mutex, message)
 	}
-	mutex.Lock()
-	pool.DisconnectClient(conn)
-	mutex.Unlock()
-}
 
-func broadcastMessage(sender net.Conn, message string) {
-	fmt.Println("msg: ", message)
-	clients := pool.GetClients()
-	for conn := range clients {
-		if conn != sender {
-			_, err := conn.Write([]byte(message))
-			if err != nil {
-				fmt.Println("Error broadcasting message to client:", err.Error())
-			}
-		}
-	}
+	h.mutex.Lock()
+	pool.DisconnectClient(h.conn)
+	h.mutex.Unlock()
 }
