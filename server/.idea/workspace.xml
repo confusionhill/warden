@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da9f2609-57cb-4222-a646-e1a73242a4aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/handler/main.handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pool/NetworkPool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/handler/main.handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/handler/main.handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pool/NetworkPool.go" beforeDir="false" afterPath="$PROJECT_DIR$/pool/NetworkPool.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

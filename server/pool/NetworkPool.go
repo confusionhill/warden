@@ -4,7 +4,7 @@ import "net"
 
 type ClientPool struct {
 	Conn   net.Conn
-	ConnID string `json:"conn_id"`
+	ConnID string
 }
 
 const (
@@ -15,7 +15,7 @@ type NetPool map[net.Conn]ClientPool
 
 var clients = make(NetPool, 0)
 
-func SetNewClient(conn net.Conn) {
+func AddClient(conn net.Conn) {
 	clients[conn] = ClientPool{
 		Conn:   conn,
 		ConnID: "dsjlksdhds",

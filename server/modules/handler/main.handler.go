@@ -15,7 +15,7 @@ func MainConnHandler(conn net.Conn, mutex *sync.Mutex) {
 	}()
 
 	mutex.Lock()
-	pool.SetNewClient(conn)
+	pool.AddClient(conn)
 	mutex.Unlock()
 	fmt.Println("new client added to client pool")
 	reader := bufio.NewReader(conn)
@@ -33,6 +33,7 @@ func MainConnHandler(conn net.Conn, mutex *sync.Mutex) {
 }
 
 func broadcastMessage(sender net.Conn, message string) {
+	fmt.Println("msg: ", message)
 	clients := pool.GetClients()
 	for conn := range clients {
 		if conn != sender {
